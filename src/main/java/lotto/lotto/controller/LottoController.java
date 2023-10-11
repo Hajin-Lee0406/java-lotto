@@ -23,21 +23,21 @@ public class LottoController {
         inputView = InputView.getInstance();
     }
 
-    public void run(){
+    public void run() {
         startLotto();
     }
 
-    private void startLotto(){
+    private void startLotto() {
         Integer inputMoney = inputView.getPurchaseAmount();
 
-        if (inputMoney % 1000 != 0){
+        if (inputMoney % 1000 != 0) {
             throw new IllegalArgumentException("[ERROR] 1000원 단위로 입력하세요.");
         }
 
         int total = inputMoney / 1000;
         buyLottoList(total);
 
-        List<Integer> inputNumbers = inputView.getInputGoalNumber();
+        List<Integer> inputNumbers = inputView.getInputNumbers();
         int bonusNumber = inputView.getInputBonusNumber();
 
         String rateOfReturn = lottoService.getRateOfReturn(inputMoney, checkResult(lottoList, inputNumbers, bonusNumber));
@@ -45,7 +45,7 @@ public class LottoController {
     }
 
     // 로또 구매
-    private void buyLottoList(int total){
+    private void buyLottoList(int total) {
         for (int i = 0; i < total; i++) {
             List<Integer> numbers = lottoService.buyLotto();
             lottoList.add(new Lotto(numbers));
@@ -55,13 +55,13 @@ public class LottoController {
     }
 
     // 당첨 확인
-    private int checkResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
+    private int checkResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber) {
         List<Grade> test = lottoService.totalResult(lottoList, inputNumbers, bonusNumber);
         int outputMoney = 0;
 
         for (Grade value : Grade.values()) {
             int count = Collections.frequency(test, value);
-            outputMoney = outputMoney + count*value.getAccount();
+            outputMoney += count * value.getAccount();
             outputView.printGradeResult(value.getComment(), count);
         }
 
