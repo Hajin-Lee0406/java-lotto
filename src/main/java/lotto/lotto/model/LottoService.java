@@ -1,9 +1,7 @@
 package lotto.lotto.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static camp.nextstep.edu.missionutils.Randoms.pickUniqueNumbersInRange;
 
@@ -45,6 +43,10 @@ public class LottoService {
         }
 
         return results;
+    }
+
+    public String getRateOfReturn(int inputMoney, int outputMoney){
+        return String.format("%.2f", ((double) outputMoney /inputMoney) * 100);
     }
 
 }

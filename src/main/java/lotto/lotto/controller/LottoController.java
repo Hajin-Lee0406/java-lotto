@@ -41,8 +41,11 @@ public class LottoController {
         buyLottoList(total);
         List<Integer> inputNumbers = inputView.getInputGoalNumber();
         int bonusNumber = inputView.getInputBonusNumber();
-        checkResult(lottoList, inputNumbers, bonusNumber);
+        //checkResult(lottoList, inputNumbers, bonusNumber);
         //outputView.printresult();
+
+        String rateOfReturn = lottoService.getRateOfReturn(purchaseAmount, checkResult(lottoList, inputNumbers, bonusNumber));
+        System.out.println("총 수익률은 " + rateOfReturn + "%입니다.");
     }
 
     // 로또 구매
@@ -55,13 +58,17 @@ public class LottoController {
     }
 
     // 당첨 확인
-    private void checkResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
+    private int checkResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
         List<Result> test = lottoService.totalResult(lottoList, inputNumbers, bonusNumber);
+        int outputMoney = 0;
 
         for (Result value : Result.values()) {
             int count = Collections.frequency(test, value);
+            outputMoney = outputMoney + count*value.getAccount();
             System.out.println(value.getComment() + count + "개");
         }
+
+        return outputMoney;
     }
 
 }
