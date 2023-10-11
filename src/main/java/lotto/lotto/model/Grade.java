@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import static lotto.lotto.model.Constants.*;
 
-public enum Result {
+public enum Grade {
     FIRST(6, 2000000000, RESULT_GRADE_FIRST),
     SECOND(5,30000000, RESULT_GRADE_SECOND),
     THIRD(5, 1500000, RESULT_GRADE_THIRD),
@@ -17,7 +17,7 @@ public enum Result {
     private final int account;
     private final String comment;
 
-    Result(int hit, int account, String comment) {
+    Grade(int hit, int account, String comment) {
         this.hit = hit;
         this.account = account;
         this.comment = comment;
@@ -35,10 +35,10 @@ public enum Result {
         return comment;
     }
 
-    private static final Map<Integer, Result> BY_HIT =
-            Stream.of(values()).collect(Collectors.toMap(Result::getHit, e -> e, (SECOND, THIRD) -> THIRD));
+    private static final Map<Integer, Grade> BY_HIT =
+            Stream.of(values()).collect(Collectors.toMap(Grade::getHit, e -> e, (SECOND, THIRD) -> THIRD));
 
-    public static Result valueOfHit(int hit, boolean isBonus) {
+    public static Grade valueOfHit(int hit, boolean isBonus) {
         if(isBonus) return SECOND;
         return BY_HIT.get(hit);
     }

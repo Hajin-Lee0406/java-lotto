@@ -2,14 +2,13 @@ package lotto.lotto.controller;
 
 import lotto.lotto.model.Lotto;
 import lotto.lotto.model.LottoService;
-import lotto.lotto.model.Result;
+import lotto.lotto.model.Grade;
 import lotto.lotto.view.InputView;
 import lotto.lotto.view.OutputView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class LottoController {
 
@@ -29,23 +28,20 @@ public class LottoController {
     }
 
     private void startLotto(){
-        Integer purchaseAmount = inputView.getPurchaseAmount();
+        Integer inputMoney = inputView.getPurchaseAmount();
 
-        if (purchaseAmount % 1000 != 0){
+        if (inputMoney % 1000 != 0){
             throw new IllegalArgumentException("[ERROR] 1000원 단위로 입력하세요.");
         }
 
-        int total = purchaseAmount / 1000;
-        outputView.printBuyLottoCount(total);
-
+        int total = inputMoney / 1000;
         buyLottoList(total);
+
         List<Integer> inputNumbers = inputView.getInputGoalNumber();
         int bonusNumber = inputView.getInputBonusNumber();
-        //checkResult(lottoList, inputNumbers, bonusNumber);
-        //outputView.printresult();
 
-        String rateOfReturn = lottoService.getRateOfReturn(purchaseAmount, checkResult(lottoList, inputNumbers, bonusNumber));
-        System.out.println("총 수익률은 " + rateOfReturn + "%입니다.");
+        String rateOfReturn = lottoService.getRateOfReturn(inputMoney, checkResult(lottoList, inputNumbers, bonusNumber));
+        outputView.printRateOfReturn(rateOfReturn);
     }
 
     // 로또 구매
@@ -53,19 +49,20 @@ public class LottoController {
         for (int i = 0; i < total; i++) {
             List<Integer> numbers = lottoService.buyLotto();
             lottoList.add(new Lotto(numbers));
-            System.out.println(numbers);
         }
+
+        outputView.printBuyLottoCount(total, lottoList);
     }
 
     // 당첨 확인
     private int checkResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
-        List<Result> test = lottoService.totalResult(lottoList, inputNumbers, bonusNumber);
+        List<Grade> test = lottoService.totalResult(lottoList, inputNumbers, bonusNumber);
         int outputMoney = 0;
 
-        for (Result value : Result.values()) {
+        for (Grade value : Grade.values()) {
             int count = Collections.frequency(test, value);
             outputMoney = outputMoney + count*value.getAccount();
-            System.out.println(value.getComment() + count + "개");
+            outputView.printGradeResult(value.getComment(), count);
         }
 
         return outputMoney;

@@ -15,7 +15,7 @@ public class LottoService {
         return pickUniqueNumbersInRange(1, 45, 6);
     }
 
-    public Result checkResult(Lotto lotto, List<Integer> inputNumbers, int bonusNumber){
+    public Grade checkResult(Lotto lotto, List<Integer> inputNumbers, int bonusNumber){
         int count = 0;
         boolean isBonus = false;
 
@@ -30,19 +30,19 @@ public class LottoService {
                 isBonus = true;
             }
         }
-        Result result = Result.valueOfHit(count, isBonus);
-        return result;
+        Grade grade = Grade.valueOfHit(count, isBonus);
+        return grade;
     }
 
-    public List<Result> totalResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
-        List<Result> results = new ArrayList<>();
+    public List<Grade> totalResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
+        List<Grade> grades = new ArrayList<>();
 
         for (Lotto lotto : lottoList) {
-            Result result = checkResult(lotto, inputNumbers, bonusNumber);
-            results.add(result);
+            Grade grade = checkResult(lotto, inputNumbers, bonusNumber);
+            grades.add(grade);
         }
 
-        return results;
+        return grades;
     }
 
     public String getRateOfReturn(int inputMoney, int outputMoney){
