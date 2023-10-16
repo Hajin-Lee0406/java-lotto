@@ -32,12 +32,11 @@ public class LottoController {
     private void startLotto() {
         int inputMoney = inputView.getPurchaseAmount();
 
-        if(inputMoney > 45 || inputMoney < 1){
+        if (inputMoney > 45 || inputMoney < 1) {
             throw new IllegalArgumentException(INVALID_MONEY_FORMAT);
         }
 
-        int total = inputMoney / 1000;
-        buyLottoList(total);
+        buyLottoList(inputMoney);
 
         List<Integer> inputNumbers = inputView.getInputNumbers();
         int bonusNumber = inputView.getInputBonusNumber();
@@ -47,7 +46,9 @@ public class LottoController {
     }
 
     // 로또 구매
-    private void buyLottoList(int total) {
+    private void buyLottoList(int inputMoney) {
+        int total = inputMoney / 1000;
+
         for (int i = 0; i < total; i++) {
             List<Integer> numbers = lottoService.buyLotto();
             lottoList.add(new Lotto(numbers));
@@ -58,11 +59,12 @@ public class LottoController {
 
     // 당첨 확인
     private int checkResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber) {
-        List<Grade> test = lottoService.totalResult(lottoList, inputNumbers, bonusNumber);
+        List<Grade> gradeList = lottoService.totalResult(lottoList, inputNumbers, bonusNumber);
         int outputMoney = 0;
 
         for (Grade value : Grade.values()) {
-            int count = Collections.frequency(test, value);
+            int count = Collections.frequency(gradeList, value);
+
             outputMoney += count * value.getAccount();
             outputView.printGradeResult(value.getComment(), count);
         }
