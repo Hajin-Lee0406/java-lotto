@@ -40,8 +40,9 @@ public class LottoController {
 
         List<Integer> inputNumbers = inputView.getInputNumbers();
         int bonusNumber = inputView.getInputBonusNumber();
+        int outputMoney = checkResult(lottoList, inputNumbers, bonusNumber);
 
-        String rateOfReturn = lottoService.getRateOfReturn(inputMoney, checkResult(lottoList, inputNumbers, bonusNumber));
+        String rateOfReturn = lottoService.getRateOfReturn(inputMoney, outputMoney);
         outputView.printRateOfReturn(rateOfReturn);
     }
 
@@ -59,7 +60,7 @@ public class LottoController {
 
     // 당첨 확인
     private int checkResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber) {
-        List<Grade> gradeList = lottoService.totalResult(lottoList, inputNumbers, bonusNumber);
+        List<Grade> gradeList = lottoService.totalGrade(lottoList, inputNumbers, bonusNumber);
         int outputMoney = 0;
 
         for (Grade value : Grade.values()) {

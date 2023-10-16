@@ -31,16 +31,11 @@ public class LottoService {
                 isBonus = true;
             }
         }
-        Grade grade = Grade.valueOfHit(count, isBonus);
-        return grade;
+        return Grade.valueOfHit(count, isBonus);
     }
 
-    public List<Grade> totalResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
-        if(inputNumbers.size() > 6){
-            System.out.println(INVALID_NUMBER_SIZE);
-            throw new IllegalArgumentException();
-        }
-
+    // 전체 등수 확인
+    public List<Grade> totalGrade(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
         List<Grade> grades = new ArrayList<>();
 
         for (Lotto lotto : lottoList) {

@@ -1,9 +1,8 @@
 package lotto.lotto.model;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+
+import static lotto.lotto.model.Constants.INVALID_NUMBER_SIZE;
 
 public class Lotto {
     private final List<Integer> numbers;
@@ -15,6 +14,7 @@ public class Lotto {
 
     private void validate(List<Integer> numbers) {
         if (numbers.size() != 6) {
+            System.out.println(INVALID_NUMBER_SIZE);
             throw new IllegalArgumentException();
         }
     }
