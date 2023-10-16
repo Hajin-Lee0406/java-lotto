@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static lotto.lotto.model.Constants.INVALID_MONEY_FORMAT;
+
 public class LottoController {
 
     private final LottoService lottoService;
@@ -28,10 +30,10 @@ public class LottoController {
     }
 
     private void startLotto() {
-        Integer inputMoney = inputView.getPurchaseAmount();
+        int inputMoney = inputView.getPurchaseAmount();
 
-        if (inputMoney % 1000 != 0) {
-            throw new IllegalArgumentException("[ERROR] 1000원 단위로 입력하세요.");
+        if(inputMoney > 45 || inputMoney < 1){
+            throw new IllegalArgumentException(INVALID_MONEY_FORMAT);
         }
 
         int total = inputMoney / 1000;

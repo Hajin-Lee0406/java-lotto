@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static camp.nextstep.edu.missionutils.Randoms.pickUniqueNumbersInRange;
+import static lotto.lotto.model.Constants.INVALID_NUMBER_SIZE;
 
 public class LottoService {
 
@@ -35,6 +36,11 @@ public class LottoService {
     }
 
     public List<Grade> totalResult(List<Lotto> lottoList, List<Integer> inputNumbers, int bonusNumber){
+        if(inputNumbers.size() > 6){
+            System.out.println(INVALID_NUMBER_SIZE);
+            throw new IllegalArgumentException();
+        }
+
         List<Grade> grades = new ArrayList<>();
 
         for (Lotto lotto : lottoList) {
