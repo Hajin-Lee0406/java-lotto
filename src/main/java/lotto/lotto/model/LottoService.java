@@ -46,7 +46,7 @@ public class LottoService {
     }
 
     public String getRateOfReturn(int inputMoney, int outputMoney){
-        return String.format("%.2f", ((double) outputMoney /inputMoney) * 100);
+        return String.format("%.1f", ((double) outputMoney /inputMoney) * 100);
     }
 
 }
